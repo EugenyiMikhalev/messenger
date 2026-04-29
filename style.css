@@ -1,0 +1,27 @@
+/* :root {
+  --text-color: green;
+}
+
+body {
+  --text-color: blue;
+  color: var(--text-color);
+  transition: all 4s ease;
+}
+
+@define-mixin padding1 $size {
+  padding: $size;
+}
+
+body {
+  @mixin padding1 65px;
+}
+
+@define-mixin bgColor $color {
+  background-color: $color;
+}
+
+html {
+  body {
+    background: linear-gradient(#e98a00, #f5aa2f);
+  }
+} */

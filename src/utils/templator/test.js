@@ -17,12 +17,12 @@ const context = {
   },
 };
 
-const renderedTemplate = tmpl.compile(context);
+// const renderedTemplate = tmpl.compile(context);
 
-document.body.innerHTML = renderedTemplate;
+// document.body.innerHTML = renderedTemplate;
 
 const testTemp2 = `
-<button onClick={{handleClick}}>{{buttonText}}</button>
+<button disabled onClick={{handleClick}}>{{buttonText}}</button>
 `;
 
 const context2 = {
@@ -31,8 +31,8 @@ const context2 = {
   },
   buttonText: "click me",
 };
-const tmpl2 = new window.Templator(testTemp2);
+// const tmpl2 = new window.Templator(testTemp2);
 
-const renderedTemplate2 = tmpl2.compile(context2);
+// const renderedTemplate2 = tmpl2.compile(context2);
 
-document.body.innerHTML += renderedTemplate2;
+// document.body.innerHTML += renderedTemplate2;
