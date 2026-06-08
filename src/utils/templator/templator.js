@@ -306,10 +306,36 @@ window.Templator = (function () {
 
             // Если незакрывающий тэг
             if (chunk.chunk[1] !== "/") {
+              const VOID_TAGS = [
+                "area",
+                "base",
+                "br",
+                "col",
+                "embed",
+                "hr",
+                "img",
+                "input",
+                "link",
+                "meta",
+                "source",
+                "track",
+                "wbr",
+              ];
               let tagOnly = chunk.chunk.match(/\w+/)[0];
+              console.log("tagOnly: ", tagOnly);
               let element = document.createElement(tagOnly);
 
-              tags.push({ element: element });
+              if (VOID_TAGS.indexOf(tagOnly) === -1) {
+                tags.push({ element: element });
+              } else {
+                if (tags.length !== 1) {
+                  console.log("VOID ELEMENT ");
+                  console.log("[tags.length - 1]: ", tags[tags.length - 1]);
+                  tags[tags.length - 1].element.appendChild(element);
+                } else {
+                  document.body.appendChild(element);
+                }
+              }
 
               if (tagOnly.length === chunk.chunk.trim().length - 2) break;
 
@@ -328,7 +354,7 @@ window.Templator = (function () {
                   const tmplValue = attr.value.match(/\{\{(\w+)\}\}/)[1];
                   const data = get(ctx, tmplValue);
                   if (typeof data === "function") {
-                    //  TODO: добавить обработку перезаписи методов window (если в ранзных контекстах одинаковые названия для методов)
+                    //  TODO: добавить обработку перезаписи методов window (если в разных контекстах одинаковые названия для методов)
                     window[tmplValue] = data;
                     element.setAttribute(attr.name, `window.${tmplValue}()`);
                   } else {
