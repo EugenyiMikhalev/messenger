@@ -1,0 +1,20 @@
+/* normalize */
+@import url("./normalize.css");
+
+/* fonts */
+@import url("./fonts.css");
+
+/* BLOCK page */
+@import url("./../components/page/page.css");
+@import url("./../components/page/_layout/page_layout_vertical.css");
+
+/* BLOCK title-h1 */
+@import url("./../components/title/title.css");
+@import url("./../components/title/_theme/title_theme_dark.css");
+
+/* BLOCK form */
+@import url("./../components/form/form.css");
+@import url("./../components/form/__title/form__title.css");
+@import url("./../components/form/__label/form__label.css");
+@import url("./../components/form/__input/form__input.css");
+@import url("./../components/form/__submit-button/form__submit-button.css");

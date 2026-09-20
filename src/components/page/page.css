@@ -1,0 +1,11 @@
+.page {
+  width: 100wh;
+  height: 100vh;
+
+  background: radial-gradient(
+    circle at center,
+    #061633 0%,
+    #051229 25%,
+    #00000f 70%
+  );
+}
