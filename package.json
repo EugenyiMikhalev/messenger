@@ -1,9 +1,14 @@
 {
   "scripts": {
     "dev": "parcel index.html",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html",
+    "typecheck": "tsc --noEmit --watch"
   },
   "devDependencies": {
-    "parcel": "^2.16.4"
+    "autoprefixer": "^10.4.24",
+    "parcel": "^2.16.4",
+    "postcss": "^8.5.6",
+    "postcss-mixins": "^12.1.2",
+    "typescript": "^7.0.2"
   }
 }
