@@ -2,9 +2,14 @@
 
 ## Purpose:
 
-Make a messenger app with vanilla JS as well as custom templator.
+Make a messenger app with vanilla JS as well as custom **templator**.
 
 ## Stack:
 
+- TypeScript
 - JavaScript
 - PostCSS
+
+### Bundler:
+
+- Parcel
