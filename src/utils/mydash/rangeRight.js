@@ -26,7 +26,7 @@ function range(start, end, step, isRight = false) {
     if (path === 0) return [];
     toRight = path > 0;
     if (step === undefined) {
-      toRight ? (step = 1) : (step = -1);
+      step = toRight ? 1 : -1;
     }
 
     if ((toRight && step < 0) || (!toRight && step > 0)) return [];

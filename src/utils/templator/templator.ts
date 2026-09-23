@@ -34,7 +34,7 @@ function attributeChunk(str: string): AttrChunk {
 
   str = str.trim();
 
-  const regExpName = /^[\w\-]+/;
+  const regExpName = /^[\w-]+/;
 
   const match: RegExpMatchArray | null = str.match(regExpName);
   if (!match) {
@@ -92,7 +92,7 @@ function attributeChunk(str: string): AttrChunk {
 class Templator {
   _template: string;
   // TEMPLATE_REGEXP = /\{\{(.*?)\}\}/gi;
-  TEMPLATE_REGEXP_TAG = /\<(.*?)\>/gi;
+  TEMPLATE_REGEXP_TAG = /<(.*?)>/gi;
   TEMPLATE_REGEXP_CURLY = /\{\{(.*?)\}\}/gi;
   constructor(template: string) {
     this._template = template;
@@ -346,7 +346,7 @@ class Templator {
             ];
             let match: RegExpMatchArray | null = chunk.chunk.match(/\w+/);
             if (!match) {
-              throw new Error("No tag matched in chunk.chunk for /\w+/");
+              throw new Error("No tag matched in chunk.chunk for /\\w+/");
             }
             let tagOnly = match[0];
             // console.log("tagOnly: ", tagOnly);
