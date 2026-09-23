@@ -4,7 +4,8 @@
     "build": "parcel build index.html",
     "typecheck": "tsc --noEmit --watch",
     "lint": "oxlint",
-    "lint:fix": "oxlint --fix"
+    "lint:fix": "oxlint --fix",
+    "lintCSS": "stylelint \"**/*.css\" --ignore-path .gitignore"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.24",
@@ -12,6 +13,8 @@
     "parcel": "^2.16.4",
     "postcss": "^8.5.6",
     "postcss-mixins": "^12.1.2",
+    "stylelint": "^17.15.0",
+    "stylelint-config-standard": "^40.0.0",
     "typescript": "^7.0.2"
   }
 }
