@@ -9,6 +9,7 @@ Make a messenger app with vanilla JS as well as custom **templator**.
 - TypeScript
 - JavaScript
 - PostCSS
+- Oxlint
 
 ### Bundler:
 
