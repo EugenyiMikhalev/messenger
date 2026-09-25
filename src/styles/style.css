@@ -7,6 +7,42 @@
 /* BLOCK page */
 @import url("./../components/page/page.css");
 @import url("./../components/page/_layout/page_layout_vertical.css");
+@import url("./../components/page/_layout/page_layout_horizontal.css");
+
+/* BLOCK side-bar */
+@import url("./../components/side-bar/side-bar.css");
+@import url("./../components/side-bar/__info/side-bar__info.css");
+@import url("./../components/side-bar/__info/__img/side-bar__info__img.css");
+
+/* BLOCK chat-list */
+@import url("./../components/chatlist/chatlist.css");
+@import url("./../components/chatlist/__list/chatlist__list.css");
+@import url("./../components/chatlist/__chat/chatlist__chat.css");
+@import url("./../components/chatlist/__chat/_active/chatlist__chat_active.css");
+
+/* BLOCK main-column */
+@import url("./../components/main-column/main-column.css");
+
+/* BLOCK no-opened-chats-text */
+@import url("./../components/no-opened-chats-text/no-opened-chats-text_hide/no-opened-chats-text_hide.css");
+
+/* BLOCK chat */
+@import url("./../components/chat/chat.css");
+@import url("./../components/chat/__top/chat__top.css");
+@import url("./../components/chat/__title/chat__title.css");
+@import url("./../components/chat/__bottom/chat__bottom.css");
+@import url("./../components/chat/__input/chat__input.css");
+
+/* BLOCK search */
+@import url("./../components/search/search.css");
+
+@import url("./../components/search/__input/search__input.css");
+
+/* BLOCK bubbles */
+@import url("./../components/bubbles/bubbles.css");
+@import url("./../components/bubbles/__time/bubbles__time.css");
+@import url("./../components/bubbles/__bubble/bubbles__bubble.css");
+@import url("./../components/bubbles/__bubble/_self/bubbles__bubble_self.css");
 
 /* BLOCK title-h1 */
 @import url("./../components/title/title.css");
@@ -18,3 +54,7 @@
 @import url("./../components/form/__label/form__label.css");
 @import url("./../components/form/__input/form__input.css");
 @import url("./../components/form/__submit-button/form__submit-button.css");
+
+/* BLOCK button */
+@import url("./../components/button/button.css");
+@import url("./../components/button/_type/button_type_img.css");

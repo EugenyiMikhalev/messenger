@@ -1,0 +1,6 @@
+.bubbles__bubble_self {
+  align-self: flex-end;
+  margin: auto 10px auto auto;
+
+  background-color: rgb(205, 225, 244);
+}

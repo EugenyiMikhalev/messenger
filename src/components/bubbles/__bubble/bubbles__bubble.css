@@ -1,0 +1,13 @@
+.bubbles__bubble {
+  padding: 10px 20px;
+  margin: 10px;
+
+  background-color: rgb(168, 189, 242);
+
+  width: fit-content;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}

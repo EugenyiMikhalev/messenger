@@ -1,0 +1,11 @@
+.chat__input {
+  border: none;
+  background-color: rgb(168, 189, 242);
+  outline: none;
+
+  border-radius: 5px;
+
+  padding: 5px;
+
+  color: black;
+}

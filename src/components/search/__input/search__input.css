@@ -1,0 +1,12 @@
+.search__input {
+  max-width: 100px;
+  padding: 5px;
+
+  background-color: rgb(168, 189, 242);
+
+  border: none;
+  border-radius: 5px;
+  outline: none;
+
+  color: black;
+}
