@@ -30,7 +30,7 @@ function get(
 }
 
 function attributeChunk(str: string): AttrChunk {
-  console.log("IN attributeChunk", str.trim());
+  // console.log("IN attributeChunk", str.trim());
 
   str = str.trim();
 
@@ -41,11 +41,11 @@ function attributeChunk(str: string): AttrChunk {
     throw new Error(`Invalid attribute string: "${str}"`);
   }
   const name: string = match[0];
-  console.log("NAME: ", name);
+  // console.log("NAME: ", name);
 
   if (name === str) {
-    console.log("1111111111111111111111");
-    console.log("name === str");
+    // console.log("1111111111111111111111");
+    // console.log("name === str");
     return { name: name, value: true, str: "" };
   }
   let indexQuoOpen: number = str.indexOf(`'`);
@@ -59,16 +59,16 @@ function attributeChunk(str: string): AttrChunk {
       sliceWClosingQuo = str.slice(indexQuoOpen + 1);
       indexQuoClose = sliceWClosingQuo.indexOf(`'`) + indexQuoOpen + 1;
     } else {
-      console.log("222222222222222222222222222222");
+      // console.log("222222222222222222222222222222");
 
       sliceWClosingQuo = str.slice(indexDQuoOpen + 1);
       indexQuoClose = sliceWClosingQuo.indexOf(`"`) + indexDQuoOpen + 1;
-      console.log(
-        "name: ",
-        name,
-        "value: ",
-        str.slice(indexDQuoOpen + 1, indexQuoClose),
-      );
+      // console.log(
+      //   "name: ",
+      //   name,
+      //   "value: ",
+      //   str.slice(indexDQuoOpen + 1, indexQuoClose),
+      // );
 
       return {
         name,
@@ -82,17 +82,17 @@ function attributeChunk(str: string): AttrChunk {
     sliceWClosingQuo = str.slice(indexQuoOpen + 1);
     indexQuoClose = sliceWClosingQuo.indexOf(`'`) + indexQuoOpen + 1;
   } else {
-    console.log("4444444444444444444444444444");
+    // console.log("4444444444444444444444444444");
 
     sliceWClosingQuo = str.slice(indexDQuoOpen + 1);
     indexQuoClose = sliceWClosingQuo.indexOf(`"`) + indexDQuoOpen + 1;
 
-    console.log(
-      "name: ",
-      name,
-      "value: ",
-      str.slice(indexDQuoOpen + 1, indexQuoClose),
-    );
+    // console.log(
+    //   "name: ",
+    //   name,
+    //   "value: ",
+    //   str.slice(indexDQuoOpen + 1, indexQuoClose),
+    // );
 
     return {
       name,
@@ -101,15 +101,15 @@ function attributeChunk(str: string): AttrChunk {
     };
   }
 
-  console.log(
-    "9999",
-    "name: ",
-    name,
-    "value: ",
-    str.slice(indexQuoOpen + 1, indexQuoClose),
-    "str: ",
-    str.slice(indexQuoClose + 1),
-  );
+  // console.log(
+  //   "9999",
+  //   "name: ",
+  //   name,
+  //   "value: ",
+  //   str.slice(indexQuoOpen + 1, indexQuoClose),
+  //   "str: ",
+  //   str.slice(indexQuoClose + 1),
+  // );
   return {
     name,
     value: str.slice(indexQuoOpen + 1, indexQuoClose),
@@ -154,11 +154,11 @@ class Templator {
 
             if (indexQuoOpen !== -1 && indexDQuoOpen !== -1) {
               if (indexQuoOpen > REIndex && indexDQuoOpen > REIndex) {
-                console.log(
-                  "GET CHUNK",
-                  "str: ",
-                  str.slice(str.indexOf(">") + 1),
-                );
+                // console.log(
+                //   "GET CHUNK",
+                //   "str: ",
+                //   str.slice(str.indexOf(">") + 1),
+                // );
                 return {
                   chunk: str.slice(0, str.indexOf(">") + 1),
                   str: str.slice(str.indexOf(">") + 1),
@@ -189,11 +189,11 @@ class Templator {
                     // console.log("new indexQuoOpen:", indexQuoOpen);
 
                     if (indexQuoOpen === indexQuoClose) {
-                      console.log(
-                        "GET CHUNK",
-                        "str: ",
-                        str.slice(str.indexOf(">") + 1),
-                      );
+                      // console.log(
+                      //   "GET CHUNK",
+                      //   "str: ",
+                      //   str.slice(str.indexOf(">") + 1),
+                      // );
                       return {
                         chunk: str.slice(0, str.indexOf(">") + 1),
                         str: str.slice(str.indexOf(">") + 1),
@@ -211,11 +211,11 @@ class Templator {
             } else if (indexQuoOpen !== -1) {
               // console.log("IN WHILE IN IF (indexQuoOpen !== -1)");
               if (indexQuoOpen > REIndex) {
-                console.log(
-                  "GET CHUNK",
-                  "str: ",
-                  str.slice(str.indexOf(">") + 1),
-                );
+                // console.log(
+                //   "GET CHUNK",
+                //   "str: ",
+                //   str.slice(str.indexOf(">") + 1),
+                // );
                 return {
                   chunk: str.slice(0, str.indexOf(">") + 1),
                   str: str.slice(str.indexOf(">") + 1),
@@ -253,11 +253,11 @@ class Templator {
                     // console.log("new indexQuoOpen:", indexQuoOpen);
 
                     if (indexQuoOpen === indexQuoClose) {
-                      console.log(
-                        "GET CHUNK",
-                        "str: ",
-                        str.slice(str.indexOf(">") + 1),
-                      );
+                      // console.log(
+                      //   "GET CHUNK",
+                      //   "str: ",
+                      //   str.slice(str.indexOf(">") + 1),
+                      // );
                       return {
                         chunk: str.slice(0, str.indexOf(">") + 1),
                         str: str.slice(str.indexOf(">") + 1),
@@ -273,13 +273,13 @@ class Templator {
                 }
               }
             } else if (indexDQuoOpen !== -1) {
-              console.log("IN WHILE IN IF (indexDQuoOpen !== -1)");
+              // console.log("IN WHILE IN IF (indexDQuoOpen !== -1)");
               if (indexDQuoOpen > REIndex) {
-                console.log(
-                  "GET CHUNK",
-                  "str: ",
-                  str.slice(str.indexOf(">") + 1),
-                );
+                // console.log(
+                //   "GET CHUNK",
+                //   "str: ",
+                //   str.slice(str.indexOf(">") + 1),
+                // );
                 return {
                   chunk: str.slice(0, str.indexOf(">") + 1),
                   str: str.slice(str.indexOf(">") + 1),
@@ -317,11 +317,11 @@ class Templator {
                     // console.log("new indexDQuoOpen:", indexDQuoOpen);
 
                     if (indexDQuoOpen === indexDQuoClose) {
-                      console.log(
-                        "GET CHUNK",
-                        "str: ",
-                        str.slice(str.indexOf(">") + 1),
-                      );
+                      // console.log(
+                      //   "GET CHUNK",
+                      //   "str: ",
+                      //   str.slice(str.indexOf(">") + 1),
+                      // );
                       return {
                         chunk: str.slice(0, str.indexOf(">") + 1),
                         str: str.slice(str.indexOf(">") + 1),
@@ -343,11 +343,11 @@ class Templator {
             }
           }
           // console.log("AFTER REIndex WHILE");
-          console.log(
-            "GET CHUNK",
-            "chunk: ",
-            str.slice(0, str.indexOf(">") + 1),
-          );
+          // console.log(
+          //   "GET CHUNK",
+          //   "chunk: ",
+          //   str.slice(0, str.indexOf(">") + 1),
+          // );
           return {
             chunk: str.slice(0, str.indexOf(">") + 1),
             str: str.slice(str.indexOf(">") + 1),
@@ -445,22 +445,22 @@ class Templator {
 
             const attrs = match[0].slice(tagOnly.length);
 
-            console.log("ATTRS: ", attrs);
+            // console.log("ATTRS: ", attrs);
 
             if (attrs.length > 0) {
               let attr = attributeChunk(attrs);
-              console.log(
-                "AFTER attributeChunk",
-                "attr: ",
-                attr.name,
-                "value: ",
-                attr.value,
-              );
+              // console.log(
+              //   "AFTER attributeChunk",
+              //   "attr: ",
+              //   attr.name,
+              //   "value: ",
+              //   attr.value,
+              // );
               if (
                 typeof attr.value === "string" &&
                 attr.value[0] + attr.value[1] === "{{"
               ) {
-                console.log("attr with context");
+                // console.log("attr with context");
                 match = attr.value.match(/\{\{([\w\-_]+)\}\}/);
                 if (!match) {
                   throw new Error("Error getting value of attribute");
@@ -485,19 +485,19 @@ class Templator {
                 // if (attr) console.log("at.str: ", attr.str);
 
                 attr = attributeChunk(attr.str);
-                console.log(
-                  "AFTER attributeChunk",
-                  "attr: ",
-                  attr.name,
-                  "value: ",
-                  attr.value,
-                );
+                // console.log(
+                //   "AFTER attributeChunk",
+                //   "attr: ",
+                //   attr.name,
+                //   "value: ",
+                //   attr.value,
+                // );
 
                 if (
                   typeof attr.value === "string" &&
                   attr.value[0] + attr.value[1] === "{{"
                 ) {
-                  console.log("attr with context");
+                  // console.log("attr with context");
                   match = attr.value.match(/\{\{(\w+)\}\}/);
                   if (!match) {
                     throw new Error("Error getting context of attribute");
@@ -505,7 +505,7 @@ class Templator {
 
                   const tmplValue = match[1];
                   const data = get(ctx, tmplValue);
-                  console.log(data);
+                  // console.log(data);
                   if (typeof data === "function") {
                     //  TODO: добавить обработку перезаписи методов window (если в ранзных контекстах одинаковые названия для методов)
                     (window as unknown as Record<string, unknown>)[tmplValue] =

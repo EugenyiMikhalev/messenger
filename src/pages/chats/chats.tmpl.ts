@@ -1,11 +1,4 @@
-import Templator from "../../utils/templator/templator";
-import userIcon from "../../assets/icons/user.svg";
-import settingsIcon from "../../assets/icons/settings.svg";
-import sendIcon from "../../assets/icons/send.svg";
-import searchIcon from "../../assets/icons/search.svg";
-import deleteIcon from "../../assets/icons/delete.svg";
-
-const chatsStr = `
+const chatsPageTemplate = `
       <main class='page page_layout_horizontal'>
         <section class='side-bar'>
           <div class='side-bar__info'>
@@ -64,24 +57,4 @@ const chatsStr = `
       </main>
 `;
 
-const chatsTmpl = new Templator(chatsStr);
-// console.log(loginTmpl);
-
-const context = {
-  userName: "Вася Пупкин",
-  userIcon: userIcon,
-  settingsIcon,
-  chatTitle: "Иван Иванов",
-  messages: [
-    { text: "го доту", time: "13-09-2026-13:49", sender: "Иван Иванов" },
-    { text: "алле", time: "13-09-2026-14:19", sender: "Иван Иванов" },
-    { text: "ОТСТАНЬ!!!", time: "13-09-2026-14:20", sender: "Вася Пупкин" },
-  ],
-  sendIcon,
-  searchIcon,
-  deleteIcon,
-};
-
-const renderedTemplate = chatsTmpl.compile(context);
-console.log(chatsTmpl);
-renderedTemplate.forEach((element) => document.body.append(element));
+export default chatsPageTemplate;
