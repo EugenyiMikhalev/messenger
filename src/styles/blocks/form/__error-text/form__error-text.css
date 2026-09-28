@@ -1,0 +1,9 @@
+.form__error-text {
+  font-size: 14px;
+
+  color: #ff0000;
+
+  margin: 0;
+
+  max-width: 200px;
+}

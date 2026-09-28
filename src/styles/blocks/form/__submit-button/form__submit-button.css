@@ -1,6 +1,6 @@
 .form__submit-button {
   width: 100%;
-  padding: 8px;
+  padding: 15px 10px;
 
   border: none;
   border-radius: 0;
@@ -11,6 +11,9 @@
   cursor: pointer;
 
   transition: 200ms;
+
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .form__submit-button:hover {

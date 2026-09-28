@@ -1,42 +1,20 @@
-import Templator from "../../utils/templator/templator";
-
-const loginStr: any = `
-      <main class='{{pageClasses}}'>
-        <h1 class='{{pageTitleClasses}}'>MEssageMe</h1>
-        <form class='{{loginFormClasses}}'>
-          <h2 class='{{loginFormTitleClasses}}'>Authorization</h2>
-          <label class='{{loginlabelClasses}}' for='login'>Login
-          <input class='{{loginInputClasses}}' id='login' type='text' placeholder='enter login'>
+const loginPageTemplate: string = `
+      <main class='page page_layout_vertical'>
+        <h1 class='title title_theme_dark'>MEssageMe</h1>
+        <form class='form' id='login-form' novalidate>
+          <h2 class='form__title'>Authorization</h2>
+          <label class='form__label' for='login'>Login
+          <input class='form__input' name='login' id='login' type='text' placeholder='Enter login'>
           </label>
-          <label class='{{loginlabelClasses}}' for='password'>Password
-          <input class='{{loginInputClasses}}' id='password' type='password' placeholder='enter password'>
+          <p id='login-input__error' class='form__error-text form__error-text_hide' aria-live='polite'></p>
+          <label class='form__label' for='password'>Password
+          <input class='form__input' name='password' id='password' type='password' placeholder='Enter password'>
           </label>
-          <button onClick='{{handleClick}}' class='{{loginButtonClasses}}' type='submit' submit>Login</button>
+           <p id='password-input__error' class='form__error-text form__error-text_hide' aria-live='polite'></p>
+          <button id='submit-button' class='form__submit-button' type='submit'>Login</button>
           <a href='{{loginFormHref}}'>Create an account</a>
         </form>
       </main>
 `;
 
-const loginTmpl = new Templator(loginStr);
-// console.log(loginTmpl);
-
-const context = {
-  pageClasses: "page page_layout_vertical",
-  pageTitleClasses: "title title_theme_dark",
-
-  loginFormClasses: "form",
-  loginFormTitleClasses: "form__title",
-  loginlabelClasses: "form__label",
-  handleClick: () => {
-    console.log("click handled");
-  },
-  loginInputClasses: "form__input",
-  loginButtonClasses: "form__submit-button",
-  loginFormHref: "/register",
-};
-
-const renderedTemplate = loginTmpl.compile(context);
-console.log(renderedTemplate);
-renderedTemplate.forEach((element: HTMLElement) =>
-  document.body.append(element),
-);
+export default loginPageTemplate;

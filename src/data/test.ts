@@ -6,9 +6,9 @@ const data: {
   chat: Chat;
 } = {
   user: {
-    userName: "mihalevKing228",
+    userName: "King228",
     id: "12321312421",
-    email: "mihalev.3k@gmail.com",
+    email: "burgerking@mail.ru",
     name: "Вася Пупкин",
     lastOnline: new Date("2026-09-13T14:21:11+03:00"),
     registrationDate: new Date("2026-09-11T10:11:11+03:00"),
