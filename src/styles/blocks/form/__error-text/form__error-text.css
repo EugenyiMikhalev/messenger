@@ -1,9 +1,13 @@
 .form__error-text {
   font-size: 14px;
+  font-weight: 400;
 
   color: #ff0000;
 
   margin: 0;
 
   max-width: 200px;
+
+  text-align: left;
+  width: 100%;
 }

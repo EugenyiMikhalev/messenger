@@ -1,0 +1,11 @@
+.message-form {
+  background-color: white;
+
+  border-radius: 0.5rem;
+
+  padding: 10px;
+
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}

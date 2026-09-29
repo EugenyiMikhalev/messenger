@@ -47,10 +47,15 @@ const chatsPageTemplate = `
             </div>
           </div>
           <div class='chat__bottom'>
-            <textarea name='message' id='message' class='chat__input' placeholder='Type your message...'></textarea>
-            <button class='button button_type_img'>
-              <img src='{{sendIcon}}'>
-            </button>
+            <form id='message-form' class='message-form'>
+              <div>
+              <textarea name='message' id='message' class='chat__input' placeholder='Type your message...' rows='1' aria-describedby='message-error' aria-label='message-input'></textarea>
+              <p id='message-error' class='form__error-text form__error-text_hide' aria-live='polite'></p>
+              </div>
+              <button id='send-button' class='button button_type_img' type='submit'>
+                <img src='{{sendIcon}}' alt='Send message'>
+              </button>
+            </form>
           </div>
         </div>
         </section> 

@@ -51,7 +51,9 @@
 /* BLOCK form */
 @import url("./blocks/form/form.css");
 @import url("./blocks/form/__title/form__title.css");
+@import url("./blocks/form/__fields/form__fields.css");
 @import url("./blocks/form/__label/form__label.css");
+@import url("./blocks/form/__input-wrapper/form__input-wrapper.css");
 @import url("./blocks/form/__input/form__input.css");
 @import url("./blocks/form/__input/_invalid/form__input_invalid.css");
 @import url("./blocks/form/__submit-button/form__submit-button.css");
@@ -59,7 +61,11 @@
 @import url("./blocks/form/__error-text/_hide/form__error-text_hide.css");
 @import url("./blocks/form/__submit-button/form__submit-button.css");
 
+/* BLOCK message-form */
+@import url("./blocks/message-form/message-form.css");
+
 /* BLOCK button */
 @import url("./blocks/button/button.css");
 @import url("./blocks/button/_type/button_type_img.css");
 @import url("./blocks/button/_disabled/button_disabled.css");
+@import url("./blocks/button/_input/button_input.css");

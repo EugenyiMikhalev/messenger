@@ -1,10 +1,6 @@
 .chat__bottom {
-  border-top: 1px solid rgb(168, 189, 242);
-
-  padding: 5px 15px;
-
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  display: flex;
   align-items: center;
+  justify-content: center;
   gap: 20px;
 }

@@ -11,6 +11,8 @@ import data from "../../data/test";
 
 import { Chat } from "../../types/Chat";
 import { User } from "../../types/User";
+import { validateField } from "../../utils/validation/validateField";
+import { validateMessage } from "../../utils/validation/validators";
 
 type ChatsPageData = {
   user: User;
@@ -45,4 +47,46 @@ function renderChats({ user, chat }: ChatsPageData): HTMLElement[] {
   return templator.compile(context);
 }
 
-renderChats(data).forEach((element) => document.body.append(element));
+const render = renderChats(data);
+
+function addEvents(render: HTMLElement[]) {
+  const form: HTMLFormElement | null =
+    render[0]?.querySelector("#message-form");
+  const messageInput: HTMLTextAreaElement | null =
+    render[0]?.querySelector("#message");
+  const messageErrorEl: HTMLElement | null =
+    render[0]?.querySelector("#message-error");
+
+  if (!(form instanceof HTMLFormElement)) {
+    throw new Error("Form does not exist in registration page");
+  }
+
+  if (!(messageInput instanceof HTMLTextAreaElement)) {
+    throw new Error("Input does not exist in registration page");
+  }
+
+  if (!(messageErrorEl instanceof HTMLElement)) {
+    throw new Error("Error text does not exist in registration page");
+  }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (validateField(messageInput, validateMessage, messageErrorEl)) return;
+
+    const values: Record<string, FormDataEntryValue> = {};
+
+    new FormData(form).forEach((value, name) => {
+      values[name] = value;
+    });
+
+    console.log(values);
+  });
+
+  messageInput.addEventListener("input", () => {
+    messageInput.style.height = "auto";
+    messageInput.style.height = `${messageInput.scrollHeight}px`;
+  });
+}
+
+addEvents(render);
+render.forEach((element) => document.body.append(element));

@@ -4,9 +4,9 @@ import {
   validateLogin,
   validateLoginPassword,
 } from "../../utils/validation/validators";
-import { showFieldError } from "../../utils/showField/showField";
+import { validateField } from "../../utils/validation/validateField";
 
-const context = {
+const context: Record<string, string> = {
   loginFormHref: "/register",
 };
 
@@ -19,17 +19,6 @@ function renderLogin(context: Record<string, string>): HTMLElement[] {
 let render: HTMLElement[] = renderLogin(context);
 
 addEvents(render);
-
-function validateField(
-  input: HTMLInputElement,
-  validator: (input: string) => string | null,
-  errorEl: HTMLElement,
-) {
-  const value = input.value;
-  const error = validator(value);
-  showFieldError(input, errorEl, error);
-  return error;
-}
 
 function addEvents(render: HTMLElement[]) {
   const form: HTMLFormElement | null = render[0]?.querySelector("#login-form");
@@ -61,39 +50,45 @@ function addEvents(render: HTMLElement[]) {
     throw new Error("Error Text does not exist in login page");
   }
 
-  form?.addEventListener("submit", (e) => {
+  const fields = [
+    {
+      input: loginInput,
+      errorElement: loginErrorEl,
+      validator: validateLogin,
+    },
+    {
+      input: passwordInput,
+      errorElement: passwordErrorEl,
+      validator: validateLoginPassword,
+    },
+  ];
+
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    let loginError = validateField(loginInput, validateLogin, loginErrorEl);
-    let passError = validateField(
-      passwordInput,
-      validateLoginPassword,
-      passwordErrorEl,
-    );
-    if (loginError || passError) {
+    if (
+      fields
+        .map((field) =>
+          validateField(field.input, field.validator, field.errorElement),
+        )
+        .some((error) => error !== null)
+    )
       return;
-    }
+
     const values: Record<string, FormDataEntryValue> = {};
 
     new FormData(form).forEach((value, name) => {
       values[name] = value;
     });
-    console.log("submitted", values);
   });
 
-  const handleLogin = () => {
-    return validateField(loginInput, validateLogin, loginErrorEl);
-  };
+  fields.forEach((field) => {
+    const handleValidation = () =>
+      validateField(field.input, field.validator, field.errorElement);
 
-  loginInput?.addEventListener("focus", handleLogin);
-  loginInput?.addEventListener("blur", handleLogin);
-
-  const handlePassword = () => {
-    return validateField(passwordInput, validateLoginPassword, passwordErrorEl);
-  };
-
-  passwordInput?.addEventListener("focus", handlePassword);
-  passwordInput?.addEventListener("blur", handlePassword);
+    field.input.addEventListener("blur", handleValidation);
+    field.input.addEventListener("focus", handleValidation);
+  });
 }
 
 render.forEach((element: HTMLElement) => document.body.append(element));

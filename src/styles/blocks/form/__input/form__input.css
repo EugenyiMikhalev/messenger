@@ -1,5 +1,6 @@
 .form__input {
   padding: 10px 10px;
+  width: 250px;
 
   border: 2px solid rgb(168, 168, 168);
   border-radius: 0.2rem;
@@ -7,4 +8,8 @@
 
   color: black;
   background-color: white;
+}
+
+.form__input:focus-visible {
+  outline: 1px solid black;
 }

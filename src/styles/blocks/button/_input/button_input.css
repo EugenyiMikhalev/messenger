@@ -1,0 +1,10 @@
+.button_input {
+  position: absolute;
+
+  top: 8px;
+  right: 5px;
+}
+
+.button_input:hover {
+  opacity: 0.8;
+}

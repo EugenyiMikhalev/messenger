@@ -8,4 +8,12 @@
   padding: 5px;
 
   color: black;
+
+  box-sizing: border-box;
+  overflow-y: auto;
+  resize: none;
+  height: auto;
+
+  min-height: 34px;
+  max-height: 106px;
 }
