@@ -116,7 +116,7 @@ function addEvents(render: HTMLElement[]) {
     },
   ];
 
-  form?.addEventListener("submit", (e) => {
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
 
     if (

@@ -1,9 +1,9 @@
-const chatsPageTemplate = `
+const chatsPageTemplate: string = `
       <main class='page page_layout_horizontal'>
         <section class='side-bar'>
           <div class='side-bar__info'>
             <img class='side-bar__info__img' src='{{userIcon}}'>
-            <span class='side-bar__username'>{{userName}}</span>
+            <span class='side-bar__login'>{{login}}</span>
             <button class='button button_type_img'>
               <img src='{{settingsIcon}}'>
             </button>

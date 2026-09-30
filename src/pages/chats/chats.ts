@@ -32,7 +32,7 @@ function renderChats({ user, chat }: ChatsPageData): HTMLElement[] {
   }));
 
   const context = {
-    userName: user.userName,
+    login: user.login,
     chatTitle: chat.title,
     messages,
     userIcon,

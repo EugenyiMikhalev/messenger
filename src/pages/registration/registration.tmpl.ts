@@ -12,7 +12,7 @@ const registrationTemplate: string = `
 
             <div class='form__label-wrapper'>
               <label class='form__label' for='email'>Email</label>
-              <input class='form__input' name='email' id='email' type='email' placeholder='Enter email' aria-describedby='email-input__error'>
+              <input class='form__input' name='email' id='email' type='email' autocomplete='email' placeholder='Enter email' aria-describedby='email-input__error'>
               <p id='email-input__error' class='form__error-text form__error-text_hide' aria-live='polite'></p>
             </div>
             

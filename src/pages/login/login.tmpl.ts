@@ -8,7 +8,6 @@ const loginPageTemplate: string = `
             <input class='form__input' name='login' id='login' type='text' placeholder='Enter login' aria-describedby='login-input__error'>
             <p id='login-input__error' class='form__error-text form__error-text_hide' aria-live='polite'></p>
           </div>
-
           <div class='form__label-wrapper'>
             <label class='form__label' for='password'>Password</label>
             <div class='form__input-wrapper'>

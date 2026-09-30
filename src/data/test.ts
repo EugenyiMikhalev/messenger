@@ -6,7 +6,7 @@ const data: {
   chat: Chat;
 } = {
   user: {
-    userName: "King228",
+    login: "King228",
     id: "12321312421",
     email: "burgerking@mail.ru",
     name: "Вася Пупкин",

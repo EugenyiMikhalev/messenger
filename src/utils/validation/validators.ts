@@ -60,3 +60,15 @@ export function validateMessage(value: string): string | null {
     return "Message too long";
   } else return null;
 }
+
+export function validateName(value: string): string | null {
+  const NAME_REGEXP = /^\p{L}+(?: \p{L}+)$/u;
+
+  if (!value || value.trim() === "") {
+    return "Name can't be empty";
+  } else if (value.length > 20) {
+    return "Name is too long";
+  } else if (!NAME_REGEXP.test(value)) {
+    return "Invalid name. Use letters and space";
+  } else return null;
+}
