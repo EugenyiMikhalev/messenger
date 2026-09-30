@@ -1,3 +1,9 @@
 .chatlist__chat_active {
-  background-color: rgb(168, 189, 242);
+  background-color: #001d67;
+
+  color: white;
+}
+
+.chatlist__chat_active:hover {
+  background-color: #001d67;
 }

@@ -3,15 +3,21 @@ const chatsPageTemplate = `
         <section class='side-bar'>
           <div class='side-bar__info'>
             <img class='side-bar__info__img' src='{{userIcon}}'>
-            <span>{{userName}}</span>
+            <span class='side-bar__username'>{{userName}}</span>
             <button class='button button_type_img'>
               <img src='{{settingsIcon}}'>
             </button>
           </div>
           <div class='chatlist'>
             <ul class='chatlist__list'>
-              <li class='chatlist__chat chatlist__chat_active'>Иван Иванов: го дота</li>
-              <li class='chatlist__chat'>Босс: ты где епты?</li>
+              <li class='chatlist__chat chatlist__chat_active'>
+                <span class='chatlist__sender'>Иван Иванов</span>
+                <span class='chatlist__message'>го дота</span>
+              </li>
+              <li class='chatlist__chat'>
+                <span class='chatlist__sender'>Босс</span>
+                <span class='chatlist__message'>ты где епты?</span>
+              </li>
             </ul>
           </div>
         </section>
@@ -48,11 +54,11 @@ const chatsPageTemplate = `
           </div>
           <div class='chat__bottom'>
             <form id='message-form' class='message-form'>
-              <div>
+              <div class='chat__input-wrapper'>
               <textarea name='message' id='message' class='chat__input' placeholder='Type your message...' rows='1' aria-describedby='message-error' aria-label='message-input'></textarea>
               <p id='message-error' class='form__error-text form__error-text_hide' aria-live='polite'></p>
               </div>
-              <button id='send-button' class='button button_type_img' type='submit'>
+              <button id='send-button' class='button button_type_img button_background_white' type='submit'>
                 <img src='{{sendIcon}}' alt='Send message'>
               </button>
             </form>

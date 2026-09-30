@@ -80,6 +80,8 @@ function addEvents(render: HTMLElement[]) {
     });
 
     console.log(values);
+    messageInput.value = "";
+    messageInput.style.height = "auto";
   });
 
   messageInput.addEventListener("input", () => {

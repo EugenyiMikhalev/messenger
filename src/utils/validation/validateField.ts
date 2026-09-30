@@ -1,7 +1,7 @@
 import { showFieldError } from "../showField/showField";
 
 export function validateField(
-  input: HTMLInputElement,
+  input: HTMLInputElement | HTMLTextAreaElement,
   validator: (input: string) => string | null,
   errorEl: HTMLElement,
 ) {

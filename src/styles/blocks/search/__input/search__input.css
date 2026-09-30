@@ -2,10 +2,10 @@
   max-width: 100px;
   padding: 5px;
 
-  background-color: rgb(168, 189, 242);
+  background-color: white;
 
-  border: none;
-  border-radius: 5px;
+  border: 2px solid #001d67;
+  border-radius: 0.8rem;
   outline: none;
 
   color: black;
