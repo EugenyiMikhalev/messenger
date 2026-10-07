@@ -7,7 +7,6 @@ export default class EventBus {
   }
 
   on(event: string, callback: Listener) {
-    console.log(callback.name, " subscribed to ", event);
     if (!this.listeners[event]) {
       this.listeners[event] = [];
     }
@@ -24,7 +23,6 @@ export default class EventBus {
   }
 
   emit(event: string, ...args: unknown[]) {
-    console.log("EVent emitted: ", event);
     if (!this.listeners[event]) throw new Error(`Event ${event} doesnt exist`);
 
     this.listeners[event].forEach((listener) => listener(...args));

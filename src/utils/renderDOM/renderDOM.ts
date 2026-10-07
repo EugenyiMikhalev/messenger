@@ -1,12 +1,12 @@
-import Block from "../../../block";
+import Block from "../../core/Block";
 
-function render(query: string, block: Block) {
+function render(query: string, block: Block): Element | null {
   const root = document.querySelector(query);
-  if (root) {
-    root?.appendChild(block.getContent());
-    block.dispatchComponentDidMount();
-    return root;
-  }
+  if (!root) throw new Error(`Element with query ${query} was not found`);
+  if (!block.getContent()) throw new Error("Block is empty");
+  root.appendChild(block.getContent() as HTMLElement);
+  block.dispatchComponentDidMount();
+  return root;
 }
 
 export default render;

@@ -552,9 +552,13 @@ class Templator {
           if (!match) {
             throw new Error("Error matching context name");
           }
-          tags[tags.length - 1].element.appendChild(
-            document.createTextNode(String(get(ctx, match[0]))),
-          );
+          if (tags.length > 0) {
+            tags[tags.length - 1].element.appendChild(
+              document.createTextNode(String(get(ctx, match[0]))),
+            );
+          } else {
+            roots.push(get(ctx, match[0]));
+          }
 
           break;
         case "string":
