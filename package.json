@@ -7,6 +7,9 @@
     "lint:fix": "oxlint --fix",
     "lintCSS": "stylelint \"**/*.css\" --ignore-path .gitignore"
   },
+  "@parcel/resolver-default": {
+    "packageExports": true
+  },
   "devDependencies": {
     "autoprefixer": "^10.4.24",
     "oxlint": "^1.85.0",
@@ -16,5 +19,8 @@
     "stylelint": "^17.15.0",
     "stylelint-config-standard": "^40.0.0",
     "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "uuid": "^14.0.2"
   }
 }

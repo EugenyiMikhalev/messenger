@@ -1,6 +1,7 @@
 import { Props } from "../types/Component";
 import EventBus from "./EventBus";
 import shallowEqual from "../utils/shallowEqual/shallowEqual";
+import { v4 as uuidv4 } from "uuid";
 
 export default abstract class Block {
   static readonly EVENTS: Record<string, string> = {
@@ -18,6 +19,7 @@ export default abstract class Block {
   eventBus: () => EventBus;
   props: Props;
   private _oldEvents;
+  private _id: string | null = null;
 
   constructor(tagName: string = "div", props: Props = {}) {
     const eventBus = new EventBus();
@@ -26,8 +28,12 @@ export default abstract class Block {
       props,
     };
 
-    this.props = this._makePropsProxy(props);
-
+    if (props.settings?.withInternalId) {
+      this._id = uuidv4();
+      this.props = this._makePropsProxy({ ...props, __id: this._id });
+    } else {
+      this.props = this._makePropsProxy(props);
+    }
     this.eventBus = () => eventBus;
 
     this._registerEvents(eventBus);
@@ -82,17 +88,16 @@ export default abstract class Block {
     return this._element;
   }
 
-  private _addEvents() {
+  private _addEvents(): void {
     const { events = {} } = this.props;
     Object.keys(events).forEach((eventName) => {
-      console.log(events[eventName]);
       events[eventName].forEach((callback: (event: Event) => void) =>
         this.element.addEventListener(eventName, callback),
       );
     });
   }
 
-  private _removeEvents() {
+  private _removeEvents(): void {
     for (let event in this._oldEvents) {
       this._oldEvents[event].forEach((callback: (event: Event) => void) =>
         this.element.removeEventListener(event, callback),
@@ -101,7 +106,7 @@ export default abstract class Block {
   }
 
   _render(): void {
-    const block = this.render();
+    const block: (Node | string)[] = this.render();
 
     if (this._oldEvents) {
       this._removeEvents();
@@ -134,7 +139,9 @@ export default abstract class Block {
   }
 
   _createDocumentElement(tagName: string): HTMLElement {
-    return document.createElement(tagName);
+    const element = document.createElement(tagName);
+    if (this._id) element.setAttribute("data-id", this._id);
+    return element;
   }
 
   show(): void {
