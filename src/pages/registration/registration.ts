@@ -5,7 +5,7 @@ import {
   validateRegistrationPassword,
   validateRepeatPassword,
 } from "../../utils/validation/validators";
-import { registrationTemplate } from "./registration.tmpl";
+import registrationTemplate from "./registration.tmpl";
 import revealIcon from "../../assets/icons/reveal.svg";
 import { validateField } from "../../utils/validation/validateField";
 

@@ -17,6 +17,7 @@ export default abstract class Block {
   };
   eventBus: () => EventBus;
   props: Props;
+  private _oldEvents;
 
   constructor(tagName: string = "div", props: Props = {}) {
     const eventBus = new EventBus();
@@ -62,7 +63,7 @@ export default abstract class Block {
 
   _componentDidUpdate(oldProps: Props, newProps: Props): void {
     const response = this.componentDidUpdate(oldProps, newProps);
-
+    this._oldEvents = oldProps.events;
     if (response) {
       this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
@@ -81,10 +82,34 @@ export default abstract class Block {
     return this._element;
   }
 
+  private _addEvents() {
+    const { events = {} } = this.props;
+    Object.keys(events).forEach((eventName) => {
+      console.log(events[eventName]);
+      events[eventName].forEach((callback: (event: Event) => void) =>
+        this.element.addEventListener(eventName, callback),
+      );
+    });
+  }
+
+  private _removeEvents() {
+    for (let event in this._oldEvents) {
+      this._oldEvents[event].forEach((callback: (event: Event) => void) =>
+        this.element.removeEventListener(event, callback),
+      );
+    }
+  }
+
   _render(): void {
     const block = this.render();
 
+    if (this._oldEvents) {
+      this._removeEvents();
+    }
+
     this.element.replaceChildren(...block);
+
+    this._addEvents();
   }
 
   abstract render(): Array<Node | string>;
