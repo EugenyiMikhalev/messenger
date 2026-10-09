@@ -3,7 +3,9 @@
   flex-direction: column;
   gap: 5px;
 
-  font-weight: 600;
+  font-weight: 900;
 
   position: relative;
+
+  color: rgba(0, 21, 83, 0.581);
 }
