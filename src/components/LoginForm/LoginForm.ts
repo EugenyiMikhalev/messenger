@@ -1,5 +1,6 @@
 import Block from "../../core/Block";
 import { Props } from "../../types/Component";
+import isStringArray from "../../utils/isStringArray/isStringArray";
 import shallowEqual from "../../utils/shallowEqual/shallowEqual";
 import { validateField } from "../../utils/validation/validateField";
 import {
@@ -30,20 +31,20 @@ class LoginForm extends Block {
         events: {
           blur: [
             () => {
-              validateField(
-                this.children.loginInput.getContent(),
-                validateLogin,
-                document.querySelector("#login-input__error"),
+              const { input, errorElement } = this.getField(
+                "loginInput",
+                "#login-input__error",
               );
+              validateField(input, validateLogin, errorElement);
             },
           ],
           focus: [
             () => {
-              validateField(
-                this.children.loginInput.getContent(),
-                validateLogin,
-                document.querySelector("#login-input__error"),
+              const { input, errorElement } = this.getField(
+                "loginInput",
+                "#login-input__error",
               );
+              validateField(input, validateLogin, errorElement);
             },
           ],
         },
@@ -60,20 +61,20 @@ class LoginForm extends Block {
         events: {
           blur: [
             () => {
-              validateField(
-                this.children.passInput.getContent(),
-                validateLoginPassword,
-                document.querySelector("#password-input__error"),
+              const { input, errorElement } = this.getField(
+                "passInput",
+                "#password-input__error",
               );
+              validateField(input, validateLoginPassword, errorElement);
             },
           ],
           focus: [
             () => {
-              validateField(
-                this.children.passInput.getContent(),
-                validateLoginPassword,
-                document.querySelector("#password-input__error"),
+              const { input, errorElement } = this.getField(
+                "passInput",
+                "#password-input__error",
               );
+              validateField(input, validateLoginPassword, errorElement);
             },
           ],
         },
@@ -85,13 +86,12 @@ class LoginForm extends Block {
 
             const fields = [
               {
-                input: this.children.loginInput.getContent(),
-                errorElement: document.querySelector("#login-input__error"),
+                ...this.getField("loginInput", "#login-input__error"),
                 validator: validateLogin,
               },
+
               {
-                input: this.children.passInput.getContent(),
-                errorElement: document.querySelector("#password-input__error"),
+                ...this.getField("passInput", "#password-input__error"),
                 validator: validateLoginPassword,
               },
             ];
@@ -111,7 +111,11 @@ class LoginForm extends Block {
 
             const values: Record<string, FormDataEntryValue> = {};
 
-            new FormData(this.element).forEach((value, name) => {
+            const loginForm = this.element;
+            if (!(loginForm instanceof HTMLFormElement))
+              throw new Error("form element needs to be HTMLFormElement");
+
+            new FormData(loginForm).forEach((value, name) => {
               values[name] = value;
             });
 
@@ -122,10 +126,26 @@ class LoginForm extends Block {
     });
   }
 
+  private getField(name: "loginInput" | "passInput", errorSelector: string) {
+    const input = this.children[name].getContent();
+    const errorElement = this.element.querySelector(errorSelector);
+
+    if (!(input instanceof HTMLInputElement))
+      throw new Error("Input needs to be HTMLInputElement");
+
+    if (!(errorElement instanceof HTMLElement))
+      throw new Error("errorElement needs to be HTMLElement");
+
+    return { input, errorElement };
+  }
+
   render() {
     const { classes, validate } = this.props;
 
-    this.element.classList.add(classes);
+    if (!isStringArray(classes))
+      throw new Error("Classes need to be a string[]");
+
+    this.element.classList.add(...classes);
     if (validate === "novalidate") this.element.setAttribute("novalidate", "");
 
     const source = `
