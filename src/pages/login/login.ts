@@ -1,94 +1,36 @@
-import Templator from "../../utils/templator/templator";
 import loginPageTemplate from "./login.tmpl";
-import {
-  validateLogin,
-  validateLoginPassword,
-} from "../../utils/validation/validators";
-import { validateField } from "../../utils/validation/validateField";
+import Block from "../../core/Block";
+import { Props } from "../../types/Component";
+import render from "../../utils/renderDOM/renderDOM";
+import LoginForm from "../../components/LoginForm/LoginForm";
 
-const context: Record<string, string> = {
-  loginFormHref: "/register",
+const LoginFormProps = {
+  settings: { withInternalId: true },
+  classes: ["form"],
+  validate: "novalidate",
+  loginFormHref: "/registration",
+  buttonText: "LOGIN",
 };
 
-function renderLogin(context: Record<string, string>): HTMLElement[] {
-  const templator = new Templator(loginPageTemplate);
+const loginForm = new LoginForm(LoginFormProps);
 
-  return templator.compile(context);
+const context: Record<string, unknown> = {
+  classes: ["page", "page_layout_vertical"],
+  loginForm,
+};
+
+class LoginPage extends Block {
+  constructor(tagName: string, props: Props) {
+    super(tagName, props);
+    const { classes } = this.props;
+    this.element.classList.add(...classes);
+  }
+
+  render() {
+    return this.compile(loginPageTemplate, { ...this.props });
+  }
 }
 
-let render: HTMLElement[] = renderLogin(context);
+const loginPage = new LoginPage("main", context);
 
-addEvents(render);
-
-function addEvents(render: HTMLElement[]) {
-  const form: HTMLFormElement | null = render[0]?.querySelector("#login-form");
-  const loginInput: HTMLInputElement | null =
-    render[0]?.querySelector("#login");
-  const loginErrorEl: HTMLElement | null = render[0]?.querySelector(
-    "#login-input__error",
-  );
-
-  const passwordInput: HTMLInputElement | null =
-    render[0]?.querySelector("#password");
-  const passwordErrorEl: HTMLElement | null = render[0]?.querySelector(
-    "#password-input__error",
-  );
-
-  if (!(form instanceof HTMLFormElement)) {
-    throw new Error("Form does not exist in login page");
-  }
-  if (!(loginInput instanceof HTMLInputElement)) {
-    throw new Error("Login input does not exist in login page");
-  }
-  if (!(passwordInput instanceof HTMLInputElement)) {
-    throw new Error("Password input does not exist in login page");
-  }
-  if (!(loginErrorEl instanceof HTMLElement)) {
-    throw new Error("Error Text does not exist in login page");
-  }
-  if (!(passwordErrorEl instanceof HTMLElement)) {
-    throw new Error("Error Text does not exist in login page");
-  }
-
-  const fields = [
-    {
-      input: loginInput,
-      errorElement: loginErrorEl,
-      validator: validateLogin,
-    },
-    {
-      input: passwordInput,
-      errorElement: passwordErrorEl,
-      validator: validateLoginPassword,
-    },
-  ];
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    if (
-      fields
-        .map((field) =>
-          validateField(field.input, field.validator, field.errorElement),
-        )
-        .some((error) => error !== null)
-    )
-      return;
-
-    const values: Record<string, FormDataEntryValue> = {};
-
-    new FormData(form).forEach((value, name) => {
-      values[name] = value;
-    });
-  });
-
-  fields.forEach((field) => {
-    const handleValidation = () =>
-      validateField(field.input, field.validator, field.errorElement);
-
-    field.input.addEventListener("blur", handleValidation);
-    field.input.addEventListener("focus", handleValidation);
-  });
-}
-
-render.forEach((element: HTMLElement) => document.body.append(element));
+render(".app", loginPage);

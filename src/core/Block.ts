@@ -2,6 +2,7 @@ import { Props } from "../types/Component";
 import EventBus from "./EventBus";
 import shallowEqual from "../utils/shallowEqual/shallowEqual";
 import { v4 as uuidv4 } from "uuid";
+import Templator from "../utils/templator/templator";
 
 export default abstract class Block {
   static readonly EVENTS: Record<string, string> = {
@@ -18,15 +19,22 @@ export default abstract class Block {
   };
   eventBus: () => EventBus;
   props: Props;
+  children: Record<string, Block>;
   private _oldEvents;
   private _id: string | null = null;
 
-  constructor(tagName: string = "div", props: Props = {}) {
+  constructor(tagName: string = "div", propsAndChildren: Props = {}) {
     const eventBus = new EventBus();
+
+    const { children, props } = this._getChildren(propsAndChildren);
+
     this._meta = {
       tagName,
       props,
+      children,
     };
+
+    this.children = children;
 
     if (props.settings?.withInternalId) {
       this._id = uuidv4();
@@ -38,6 +46,45 @@ export default abstract class Block {
 
     this._registerEvents(eventBus);
     eventBus.emit(Block.EVENTS.INIT);
+  }
+
+  private _getChildren(propsAndChildren: Props) {
+    const children = {};
+    const props = {};
+
+    Object.entries(propsAndChildren).forEach(([key, value]) => {
+      if (value instanceof Block) {
+        children[key] = value;
+      } else {
+        props[key] = value;
+      }
+    });
+    return { children, props };
+  }
+
+  compile(template: string, props: Props): Node[] {
+    console.log("IN COMPILE_______________________", this.element);
+    const propsAndStubs: Props = { ...props };
+
+    Object.entries(this.children).forEach(([key, child]) => {
+      const stub = document.createElement("div");
+      if (!child._id) throw new Error("child has no ID ");
+      stub.dataset.id = child._id;
+      propsAndStubs[key] = stub;
+    });
+    const nodes = new Templator(template).compile(propsAndStubs);
+    console.log(nodes);
+
+    const fragment = document.createDocumentFragment();
+    fragment.append(...nodes);
+
+    Object.values(this.children).forEach((child) => {
+      const stub = fragment.querySelector(`[data-id="${child._id}"]`);
+
+      stub?.replaceWith(child.getContent());
+    });
+    console.log("_____________________");
+    return [...fragment.childNodes];
   }
 
   private _registerEvents(eventBus: EventBus): void {
@@ -59,6 +106,10 @@ export default abstract class Block {
 
   _componentDidMount(): void {
     this.componentDidMount();
+
+    Object.values(this.children).forEach((child) => {
+      child.dispatchComponentDidMount();
+    });
   }
 
   componentDidMount() {}
@@ -76,6 +127,10 @@ export default abstract class Block {
   }
 
   componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+    // if (
+    //   Object.values(this.children).some((block) => block.componentDidUpdate())
+    // )
+    //   return true;
     return !shallowEqual(oldProps, newProps);
   }
 
@@ -111,6 +166,8 @@ export default abstract class Block {
     if (this._oldEvents) {
       this._removeEvents();
     }
+
+    this.element.innerHTML = "";
 
     this.element.replaceChildren(...block);
 

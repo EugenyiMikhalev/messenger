@@ -4,8 +4,11 @@ function shallowEqual(
 ): boolean {
   const firstKeys: string[] = Object.keys(first);
   const secondKeys: string[] = Object.keys(second);
+  console.log("++++++++++++");
 
   if (firstKeys.length !== secondKeys.length) {
+    console.log(firstKeys, "!==", secondKeys);
+
     return false;
   }
 

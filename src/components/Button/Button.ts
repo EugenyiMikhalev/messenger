@@ -8,9 +8,13 @@ class Button extends Block {
   }
 
   render() {
-    const { text, disabled } = this.props;
+    const { text, disabled, classes, type } = this.props;
 
-    this.element.classList.add("button", "button_background_black");
+    this.element.classList.add(classes);
+
+    if (type) {
+      this.element.setAttribute("type", "submit");
+    }
 
     if (disabled) {
       this.element.setAttribute("disabled", "disabled");
@@ -19,9 +23,7 @@ class Button extends Block {
     }
 
     const source = `{{text}}`;
-    const templator = new Templator(source);
-
-    return templator.compile({ text });
+    return this.compile(source, { ...this.props });
   }
 }
 

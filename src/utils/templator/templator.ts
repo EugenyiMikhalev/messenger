@@ -416,11 +416,11 @@ class Templator {
             let tagOnly = match[0];
             // console.log("tagOnly: ", tagOnly);
             let element = document.createElement(tagOnly);
-
             if (VOID_TAGS.indexOf(tagOnly) === -1) {
               tags.push({ element: element });
             } else {
-              if (tags.length !== 1) {
+              // if (tags.length !== 1) { БЫЛО
+              if (tags.length >= 1) {
                 // console.log("VOID ELEMENT ");
                 // console.log("[tags.length - 1]: ", tags[tags.length - 1]);
                 // console.log("IN IF tags: ", tags);
@@ -432,7 +432,11 @@ class Templator {
               }
             }
 
-            if (tagOnly.length === chunk.chunk.trim().length - 2) break;
+            if (
+              tagOnly.length === chunk.chunk.trim().length - 2 ||
+              chunk.chunk[tagOnly.length + 2] === "/"
+            )
+              break;
 
             // console.log("TAG HAS VALUE");
             match = chunk.chunk.match(/(?:=>|[\w={}'"()_\-.\/${} ])+/);
@@ -552,12 +556,16 @@ class Templator {
           if (!match) {
             throw new Error("Error matching context name");
           }
+          let value = get(ctx, match[0]);
+          if (!value) throw new Error("Context missing");
+          value =
+            value instanceof Node
+              ? value
+              : document.createTextNode(String(value));
           if (tags.length > 0) {
-            tags[tags.length - 1].element.appendChild(
-              document.createTextNode(String(get(ctx, match[0]))),
-            );
+            tags[tags.length - 1].element.appendChild(value);
           } else {
-            roots.push(get(ctx, match[0]));
+            roots.push(value);
           }
 
           break;

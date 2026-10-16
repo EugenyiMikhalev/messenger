@@ -1,4 +1,4 @@
-import Button from "./button";
+import Button from "./Button";
 import render from "../../utils/renderDOM/renderDOM";
 
 const initialProps = {
@@ -7,6 +7,7 @@ const initialProps = {
     click: [(event) => console.log("Button clicked", event.target)],
     mouseover: [(event) => console.log("Button hover")],
   },
+  //   settings: { withInternalId: true },
 };
 
 const button = new Button(initialProps);
