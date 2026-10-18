@@ -1,6 +1,7 @@
 import Block from "../../core/Block";
-import Templator from "../../utils/templator/templator";
 import { Props } from "../../types/Component";
+import isStringArray from "../../utils/isStringArray/isStringArray";
+import { ButtonTemplate } from "./Button.tmpl";
 
 class Button extends Block {
   constructor(props: Props) {
@@ -8,9 +9,12 @@ class Button extends Block {
   }
 
   render() {
-    const { text, disabled, classes, type } = this.props;
+    const { disabled, classes, type } = this.props;
 
-    this.element.classList.add(classes);
+    if (!isStringArray(classes))
+      throw new Error("Classes need to be a string[]");
+
+    this.element.classList.add(...classes);
 
     if (type) {
       this.element.setAttribute("type", "submit");
@@ -22,8 +26,7 @@ class Button extends Block {
       this.element.removeAttribute("disabled");
     }
 
-    const source = `{{text}}`;
-    return this.compile(source, { ...this.props });
+    return this.compile(ButtonTemplate, { ...this.props });
   }
 }
 

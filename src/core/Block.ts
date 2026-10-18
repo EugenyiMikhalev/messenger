@@ -1,11 +1,11 @@
-import { Props } from "../types/Component";
+import type { BlockEvents, Children, Events, Props } from "../types/Component";
 import EventBus from "./EventBus";
 import shallowEqual from "../utils/shallowEqual/shallowEqual";
 import { v4 as uuidv4 } from "uuid";
 import Templator from "../utils/templator/templator";
 
-export default abstract class Block {
-  static readonly EVENTS: Record<string, string> = {
+export default abstract class Block<P extends Props = Props> {
+  static readonly EVENTS = {
     INIT: "init",
     FLOW_CDM: "flow:component-did-mount",
     FLOW_RENDER: "flow:render",
@@ -15,18 +15,17 @@ export default abstract class Block {
   private _element: HTMLElement | null = null;
   private _meta: {
     tagName: string;
-    props: Props;
+    props: P;
+    children: Children;
   };
-  eventBus: () => EventBus;
-  props: Props;
-  children: Record<string, Block>;
-  private _oldEvents;
+  eventBus: () => EventBus<BlockEvents<P>>;
+  props: P;
+  children: Children;
+  private _attachedEvents: Events = {};
   private _id: string | null = null;
 
-  constructor(tagName: string = "div", propsAndChildren: Props = {}) {
-    const eventBus = new EventBus();
-
-    const { children, props } = this._getChildren(propsAndChildren);
+  constructor(tagName: string = "div", props: P, children: Children = {}) {
+    const eventBus = new EventBus<BlockEvents<P>>();
 
     this._meta = {
       tagName,
@@ -48,46 +47,29 @@ export default abstract class Block {
     eventBus.emit(Block.EVENTS.INIT);
   }
 
-  private _getChildren(propsAndChildren: Props) {
-    const children = {};
-    const props = {};
-
-    Object.entries(propsAndChildren).forEach(([key, value]) => {
-      if (value instanceof Block) {
-        children[key] = value;
-      } else {
-        props[key] = value;
-      }
-    });
-    return { children, props };
-  }
-
-  compile(template: string, props: Props): Node[] {
-    console.log("IN COMPILE_______________________", this.element);
-    const propsAndStubs: Props = { ...props };
+  compile(template: string, props: Record<string, unknown>): Node[] {
+    const propsAndStubs: Record<string, unknown> = { ...props };
 
     Object.entries(this.children).forEach(([key, child]) => {
       const stub = document.createElement("div");
-      if (!child._id) throw new Error("child has no ID ");
-      stub.dataset.id = child._id;
+      if (!child.id) throw new Error(`child ${key} has no ID`);
+      stub.dataset.id = child.id;
       propsAndStubs[key] = stub;
     });
     const nodes = new Templator(template).compile(propsAndStubs);
-    console.log(nodes);
 
     const fragment = document.createDocumentFragment();
     fragment.append(...nodes);
 
     Object.values(this.children).forEach((child) => {
-      const stub = fragment.querySelector(`[data-id="${child._id}"]`);
+      const stub = fragment.querySelector(`[data-id="${child.id}"]`);
 
       stub?.replaceWith(child.getContent());
     });
-    console.log("_____________________");
     return [...fragment.childNodes];
   }
 
-  private _registerEvents(eventBus: EventBus): void {
+  private _registerEvents(eventBus: EventBus<BlockEvents<P>>): void {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
@@ -112,29 +94,24 @@ export default abstract class Block {
     });
   }
 
-  componentDidMount() {}
+  componentDidMount(): void {}
 
   dispatchComponentDidMount(): void {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
-  _componentDidUpdate(oldProps: Props, newProps: Props): void {
+  _componentDidUpdate(oldProps: P, newProps: P): void {
     const response = this.componentDidUpdate(oldProps, newProps);
-    this._oldEvents = oldProps.events;
     if (response) {
       this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
   }
 
-  componentDidUpdate(oldProps: Props, newProps: Props): boolean {
-    // if (
-    //   Object.values(this.children).some((block) => block.componentDidUpdate())
-    // )
-    //   return true;
+  componentDidUpdate(oldProps: P, newProps: P): boolean {
     return !shallowEqual(oldProps, newProps);
   }
 
-  setProps = (nextProps: Props): void => {
+  setProps = (nextProps: Partial<P>): void => {
     Object.assign(this.props, nextProps);
   };
 
@@ -145,29 +122,27 @@ export default abstract class Block {
 
   private _addEvents(): void {
     const { events = {} } = this.props;
-    Object.keys(events).forEach((eventName) => {
-      events[eventName].forEach((callback: (event: Event) => void) =>
+    Object.entries(events).forEach(([eventName, callbacks]) => {
+      this._attachedEvents[eventName] = [...callbacks];
+      callbacks.forEach((callback) =>
         this.element.addEventListener(eventName, callback),
       );
     });
   }
 
   private _removeEvents(): void {
-    for (let event in this._oldEvents) {
-      this._oldEvents[event].forEach((callback: (event: Event) => void) =>
+    for (const event in this._attachedEvents) {
+      this._attachedEvents[event].forEach((callback) =>
         this.element.removeEventListener(event, callback),
       );
     }
+    this._attachedEvents = {};
   }
 
   _render(): void {
     const block: (Node | string)[] = this.render();
 
-    if (this._oldEvents) {
-      this._removeEvents();
-    }
-
-    this.element.innerHTML = "";
+    this._removeEvents();
 
     this.element.replaceChildren(...block);
 
@@ -180,14 +155,17 @@ export default abstract class Block {
     return this.element;
   }
 
-  _makePropsProxy(props: Props) {
+  _makePropsProxy(props: P): P {
     return new Proxy(props, {
-      set: (target: Props, prop: string, newVal: unknown): boolean => {
+      set: (target: P, prop: string, newVal: unknown): boolean => {
         const oldProps = { ...target };
-        target[prop] = newVal;
-        this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldProps, target);
+        const updated = Reflect.set(target, prop, newVal);
 
-        return true;
+        if (updated) {
+          this.eventBus().emit(Block.EVENTS.FLOW_CDU, oldProps, target);
+        }
+
+        return updated;
       },
       deleteProperty() {
         throw new Error("Cant delete a prop");
@@ -207,5 +185,9 @@ export default abstract class Block {
 
   hide(): void {
     this.element.style.display = "none";
+  }
+
+  get id(): string | null {
+    return this._id;
   }
 }

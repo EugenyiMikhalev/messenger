@@ -1,30 +1,49 @@
-type Listener = (...args: unknown[]) => void;
+type Listener<Args extends unknown[]> = (...args: Args) => void;
 
-export default class EventBus {
-  listeners: Record<string, Listener[]>;
+export default class EventBus<
+  EventMap extends { [K in keyof EventMap]: unknown[] },
+> {
+  private listeners: {
+    [K in keyof EventMap]?: Listener<EventMap[K]>[];
+  } = Object.create(null);
+
   constructor() {
     this.listeners = Object.create(null);
   }
 
-  on(event: string, callback: Listener) {
-    if (!this.listeners[event]) {
-      this.listeners[event] = [];
-    }
+  on<K extends keyof EventMap>(
+    event: K,
+    callback: Listener<EventMap[K]>,
+  ): void {
+    const listeners = this.listeners[event] ?? [];
 
-    this.listeners[event].push(callback);
+    listeners.push(callback);
+
+    this.listeners[event] = listeners;
   }
 
-  off(event: string, callback: Listener) {
-    if (!this.listeners[event]) throw new Error(`Event ${event} doesnt exist`);
+  off<K extends keyof EventMap>(
+    event: K,
+    callback: Listener<EventMap[K]>,
+  ): void {
+    const listeners = this.listeners[event];
 
-    this.listeners[event] = this.listeners[event].filter(
+    if (!listeners) {
+      throw new Error(`Event ${String(event)} doesnt exist}`);
+    }
+
+    this.listeners[event] = listeners.filter(
       (listener) => listener !== callback,
     );
   }
 
-  emit(event: string, ...args: unknown[]) {
-    if (!this.listeners[event]) throw new Error(`Event ${event} doesnt exist`);
+  emit<K extends keyof EventMap>(event: K, ...args: EventMap[K]): void {
+    const listeners = this.listeners[event];
 
-    this.listeners[event].forEach((listener) => listener(...args));
+    if (!listeners) {
+      throw new Error(`Event ${String(event)} doesnt exist}`);
+    }
+
+    listeners.forEach((listener) => listener(...args));
   }
 }
