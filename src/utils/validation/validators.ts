@@ -1,12 +1,12 @@
 export function validateLogin(value: string): string | null {
-  const LOGIN_REGEXP = /^[\w\d_]+$/;
+  const LOGIN_REGEXP = /^[a-zA-Z0-9_\-]*[a-zA-Z][a-zA-Z0-9_\-]*$/;
 
   if (value === "") {
     return "Please, enter login";
-  } else if (value.length < 3 || value.length > 15) {
+  } else if (value.length < 3 || value.length > 20) {
     return `Please, enter from 3 to 15 characters`;
   } else if (!LOGIN_REGEXP.test(value)) {
-    return "Please, use letters, numbers or '_'";
+    return "Please, use at least one letter, numbers or '_-'";
   } else return null;
 }
 
@@ -25,7 +25,7 @@ export function validateLoginPassword(value: string): string | null {
   if (value === "") {
     return "Please, enter password";
   } else if (value.length < 8 || value.length > 15) {
-    return `Please, enter from 8 to 15 characters`;
+    return `Invalid length`;
   } else return null;
 }
 
@@ -35,8 +35,8 @@ export function validateRegistrationPassword(value: string): string | null {
 
   if (value === "") {
     return "Please, enter password";
-  } else if (value.length < 8 || value.length > 15) {
-    return `Please, enter from 8 to 15 characters`;
+  } else if (value.length < 8 || value.length > 40) {
+    return `Please, enter from 8 to 40 characters`;
   } else if (!PASSWORD_ALLOWED_REGEXP.test(value)) {
     return "Please, use letters, numbers or '_*-@&%$'";
   } else if (!PASSWORD_REQUIRED_REGEXP.test(value)) {
@@ -62,7 +62,8 @@ export function validateMessage(value: string): string | null {
 }
 
 export function validateName(value: string): string | null {
-  const NAME_REGEXP = /^\p{L}+(?: \p{L}+)$/u;
+  const NAME_REGEXP =
+    /^[\p{sc=Latin}\p{sc=Cyrillic}]*[-]*[\p{sc=Latin}\p{sc=Cyrillic}]$/u;
 
   if (!value || value.trim() === "") {
     return "Name can't be empty";
@@ -70,5 +71,15 @@ export function validateName(value: string): string | null {
     return "Name is too long";
   } else if (!NAME_REGEXP.test(value)) {
     return "Invalid name. Use letters and space";
+  } else return null;
+}
+
+export function validatePhone(value: string): string | null {
+  const PHONE_REGEXP = /^\+*[78]+[\(]*[\d]{3}[\)]*\d{4}$/u;
+
+  if (!value || value.trim() === "") {
+    return "Phone can't be empty";
+  } else if (!PHONE_REGEXP.test(value)) {
+    return "Invalid phone. Example: 79001234567";
   } else return null;
 }
