@@ -49,8 +49,8 @@ EventBus can add listeners to react for events, like "flow:component-did-update"
 **Example**
 
 ```ts
-// Block.ts  in constructor()
+// Block.ts: in constructor()
 this.eventBus().on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
-// in _componentDidUpdate()
+// Block.ts: in _componentDidUpdate()
 this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
 ```
