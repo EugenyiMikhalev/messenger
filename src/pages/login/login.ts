@@ -1,11 +1,10 @@
 import loginPageTemplate from "./login.tmpl";
 import Block from "../../core/Block";
 import { Children, Props } from "../../types/Component";
-import render from "../../utils/renderDOM/renderDOM";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import isStringArray from "../../utils/isStringArray/isStringArray";
 
-const LoginFormProps = {
+export const loginFormProps: Props = {
   settings: { withInternalId: true },
   classes: ["form"],
   validate: "novalidate",
@@ -13,16 +12,17 @@ const LoginFormProps = {
   buttonText: "LOGIN",
 };
 
-const loginForm = new LoginForm(LoginFormProps);
+export const loginChildren: Children = {
+  loginForm: new LoginForm(loginFormProps),
+};
 
-const context: Record<string, unknown> = {
+export const loginProps: Record<string, unknown> = {
   classes: ["page", "page_layout_vertical"],
-  loginForm,
 };
 
 class LoginPage extends Block {
-  constructor(tagName: string, props: Props, children: Children) {
-    super(tagName, props, children);
+  constructor() {
+    super("main", loginProps, loginChildren);
     const { classes } = this.props;
 
     if (!isStringArray(classes))
@@ -33,8 +33,10 @@ class LoginPage extends Block {
   render() {
     return this.compile(loginPageTemplate, { ...this.props });
   }
+
+  show() {
+    this.element.style.display = "flex";
+  }
 }
 
-const loginPage = new LoginPage("main", context, { loginForm });
-
-render(".app", loginPage);
+export default LoginPage;
