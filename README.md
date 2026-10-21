@@ -2,9 +2,11 @@
 
 ## Purpose:
 
-Make a messenger app with vanilla JS as well as custom **templator**.
+Make a messenger app with vanilla JS as well as custom **template engine**.
 
 ## Stack:
+
+### Base:
 
 - TypeScript
 - JavaScript
@@ -43,3 +45,12 @@ class Button extends Block {
 ### EventBus.ts
 
 EventBus can add listeners to react for events, like "flow:component-did-update". It can emit to listeners that event happened or delete listener.
+
+**Example**
+
+```ts
+// Block.ts  in constructor()
+this.eventBus().on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
+// in _componentDidUpdate()
+this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+```
