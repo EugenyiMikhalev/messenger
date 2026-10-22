@@ -1,1 +1,1 @@
-export const ButtonTemplate = `{{text}}`;
+export const ButtonTemplate: string = `{{text}}`;

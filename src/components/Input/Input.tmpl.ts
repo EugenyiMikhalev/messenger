@@ -1,2 +1,2 @@
-export const InputTemplate = `
+export const InputTemplate: string = `
     `;

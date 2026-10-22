@@ -3,11 +3,14 @@
   font-weight: 400;
 
   color: #ff0000;
+  background-color: white;
 
   margin: 0;
 
-  max-width: 200px;
-
   text-align: left;
-  width: 100%;
+  width: fit-content;
+
+  position: absolute;
+  top: 103%;
+  z-index: 10;
 }

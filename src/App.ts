@@ -1,11 +1,11 @@
 import LoginPage from "./pages/login/login";
+import RegPage from "./pages/registration/registration";
 import Router from "./routing/Router";
 
 const router = new Router(".app");
 
-router.use("/", LoginPage).use("/users", LoginPage).start();
-
-setTimeout(() => {
-  console.log("777");
-  router.go("/users");
-}, 1000);
+router
+  .use("/", RegPage)
+  .use("/login", LoginPage)
+  .use("/registration", RegPage)
+  .start();

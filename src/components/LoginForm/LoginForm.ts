@@ -9,6 +9,7 @@ import {
 } from "../../utils/validation/validators";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
+import Link from "../Link/Link";
 import { LoginFormTemplate } from "./LoginForm.tmpl";
 
 class LoginForm extends Block {
@@ -126,6 +127,13 @@ class LoginForm extends Block {
                 validateField(input, validateLoginPassword, errorElement);
               },
             ],
+          },
+        }),
+        regLink: new Link({
+          href: "/registration",
+          text: "Create account",
+          settings: {
+            withInternalId: true,
           },
         }),
       },

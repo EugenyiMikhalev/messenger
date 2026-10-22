@@ -2,10 +2,6 @@ import render from "../utils/renderDOM/renderDOM";
 
 class Route {
   constructor(pathname, view, props) {
-    console.log("in ROUTE constructor");
-    console.log(pathname);
-    console.log(view);
-    console.log(props);
     this._pathname = pathname;
     this._blockClass = view;
     this._block = null;
@@ -31,8 +27,6 @@ class Route {
 
   render() {
     if (!this._block) {
-      console.log("in render:");
-      console.log(this._blockClass);
       this._block = new this._blockClass();
       render(this._props.rootQuery, this._block);
       return;

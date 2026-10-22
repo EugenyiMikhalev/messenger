@@ -557,7 +557,7 @@ class Templator {
             throw new Error("Error matching context name");
           }
           let value = get(ctx, match[0]);
-          if (!value) throw new Error("Context missing");
+          if (!value) throw new Error(`Context missing for ${chunk.chunk}`);
           value =
             value instanceof Node
               ? value

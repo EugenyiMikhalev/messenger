@@ -1,4 +1,4 @@
-export const LoginFormTemplate = `
+export const LoginFormTemplate: string = `
         <h2 class='form__title'>Authorization</h2>
           <div class='form__label-wrapper'>
             <label class='form__label' for='login'>Login</label>
@@ -15,5 +15,5 @@ export const LoginFormTemplate = `
             </div>
           </div>
           {{submitButton}}
-          <a href='{{loginFormHref}}'>Create an account</a>
+          {{regLink}}
           `;

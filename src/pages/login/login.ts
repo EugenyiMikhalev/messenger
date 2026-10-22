@@ -4,7 +4,7 @@ import { Children, Props } from "../../types/Component";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import isStringArray from "../../utils/isStringArray/isStringArray";
 
-export const loginFormProps: Props = {
+const loginFormProps: Props = {
   settings: { withInternalId: true },
   classes: ["form"],
   validate: "novalidate",
@@ -12,11 +12,11 @@ export const loginFormProps: Props = {
   buttonText: "LOGIN",
 };
 
-export const loginChildren: Children = {
+const loginChildren: Children = {
   loginForm: new LoginForm(loginFormProps),
 };
 
-export const loginProps: Record<string, unknown> = {
+const loginProps: Record<string, unknown> = {
   classes: ["page", "page_layout_vertical"],
 };
 
