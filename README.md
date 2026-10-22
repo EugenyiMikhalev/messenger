@@ -44,7 +44,7 @@ class Button extends Block {
 
 ### EventBus.ts
 
-EventBus can add listeners to react for events, like "flow:component-did-update". It can emit to listeners that event happened or delete listener.
+EventBus can add listeners to react on events, like "flow:component-did-update". It can emit to listeners that event happened or delete listener.
 
 **Example**
 
